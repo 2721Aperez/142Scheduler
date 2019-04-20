@@ -10,19 +10,19 @@ JOB_ID       ARRIVAL_TIME       DURATION
 */
 int main()
 {
-    //Creates a vector of size 100 with each element will be a vector of size 3
-    //Outer vector of size 100 will be for the entire list of jobs
-    //Inner vector of size 3 will be formatted as follows:
+    //2D vector format:
+    //where i is the ith job
     //job_list[i][0] = JOB_ID
     //job_list[i][1] = ARRIVAL_TIME
     //job_list[i][2] = DURATION
     //vector<vector<int> >job_list(100, vector<int>(3)); 
-    vector<vector<int> > job_list;
-    vector<int> job_info(3);
-    int i=0;
-    int j=0;
-    int data=0;
-    const int job_categories = 3;
+    vector<vector<int> > job_list;//This will be the list of jobs.  job_info vector will be pushed into this 2d vector
+    vector<int> job_info(3); //This stores each jobs ID Arrival and Duration
+    int i=0; //Index for job_list.  Cannot be more than 100 job entries
+    int j=0;//Index for the job info. There will only be 3 categories of info
+    int data=0;//Temp stores each int from the .dat file
+    const int JOB_CATEGORIES = 3;//There will be only 3 categories per job
+
     ifstream jobs;
     jobs.open("Jobs.dat");
 
@@ -39,7 +39,7 @@ int main()
         if(i == 100){break;}
     }
 
-    //Testing Reading from file
+    //Testing if reading and storing from file worked
     for(int inner=0; inner < i; inner++)
     {
         for(int outter=0; outter < 3; outter++)
