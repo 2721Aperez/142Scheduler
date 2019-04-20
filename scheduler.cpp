@@ -39,14 +39,14 @@ int main()
         if(i == 100){break;}
     }
 
-    //Testing if reading and storing from file worked
-    for(int inner=0; inner < i; inner++)
-    {
-        for(int outter=0; outter < 3; outter++)
-        {
-            cout << job_list[inner][outter] << " ";
-        }
-        cout << endl;
-    }
+    // //Testing if reading and storing from file worked
+    // for(int inner=0; inner < i; inner++)
+    // {
+    //     for(int outter=0; outter < JOB_CATEGORIES; outter++)
+    //     {
+    //         cout << job_list[inner][outter] << " ";
+    //     }
+    //     cout << endl;
+    // }
     return 0;
 }
