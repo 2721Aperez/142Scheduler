@@ -17,7 +17,8 @@ For each of the above, output the following:
 Response Time = first_run - arrival
 */
 
-void FIFO(vector<vector<int> >&jobs, int list_index, int job_index=3);
+void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3);
+void BJF(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3 );
 
 int main()
 {
@@ -58,14 +59,19 @@ int main()
     //job_list[i][0] = JOB_ID
     //job_list[i][1] = ARRIVAL_TIME
     //job_list[i][2] = DURATION
-void FIFO(vector<vector<int> >&jobs, int list_index, int job_index)
+void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
 {
     int arrival=0;
-    cout << "FIFO" <<endl;
-    for(int i=0; i<list_index; i++)
+    cout << "FIFO Scheduler" << endl;
+    for(int i=0; i<job_index; i++)
     {
         cout << "Job ID: " << jobs[i][0] << " Elapsed Time: " << jobs[i][2] << " Start Time: " << arrival << " Finish Time: " << arrival + jobs[i][2]
             << " Responce Time: " << arrival - jobs[i][1] << endl << endl;
         arrival += jobs[i][2];
     }
+}
+
+void BJF(vector<vector<int> >&jobs, int job_index, int job_characteristics)
+{
+    
 }
