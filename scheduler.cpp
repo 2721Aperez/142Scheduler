@@ -69,9 +69,11 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
             << " Responce Time: " << arrival - jobs[i][1] << endl << endl;
         arrival += jobs[i][2];
     }
+
+    cout << "End of FIFO" << endl; 
 }
 
 void BJF(vector<vector<int> >&jobs, int job_index, int job_characteristics)
 {
-    
+
 }
