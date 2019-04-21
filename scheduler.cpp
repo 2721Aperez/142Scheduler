@@ -8,6 +8,17 @@ using namespace std;
 .dat format 
 JOB_ID       ARRIVAL_TIME       DURATION
 */
+/*
+For each of the above, output the following:
+•Start time for each job
+•Finish time for each job
+•Total time elapsed for each job
+•Response time for each job
+Response Time = first_run - arrival
+*/
+
+void FIFO(vector<vector<int> >&jobs, int list_index, int job_index=3);
+
 int main()
 {
     //2D vector format:
@@ -39,14 +50,22 @@ int main()
         if(i == 100){break;}
     }
 
-    // //Testing if reading and storing from file worked
-    // for(int inner=0; inner < i; inner++)
-    // {
-    //     for(int outter=0; outter < JOB_CATEGORIES; outter++)
-    //     {
-    //         cout << job_list[inner][outter] << " ";
-    //     }
-    //     cout << endl;
-    // }
+    FIFO(job_list, i);
     return 0;
+}
+
+
+    //job_list[i][0] = JOB_ID
+    //job_list[i][1] = ARRIVAL_TIME
+    //job_list[i][2] = DURATION
+void FIFO(vector<vector<int> >&jobs, int list_index, int job_index)
+{
+    int arrival=0;
+    cout << "FIFO" <<endl;
+    for(int i=0; i<list_index; i++)
+    {
+        cout << "Job ID: " << jobs[i][0] << " Elapsed Time: " << jobs[i][2] << " Start Time: " << arrival << " Finish Time: " << arrival + jobs[i][2]
+            << " Responce Time: " << arrival - jobs[i][1] << endl << endl;
+        arrival += jobs[i][2];
+    }
 }
