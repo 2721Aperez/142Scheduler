@@ -66,7 +66,7 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
     for(int i=0; i<job_index; i++)
     {
         cout << "Job ID: " << jobs[i][0] << " Elapsed Time: " << jobs[i][2] << " Start Time: " << arrival << " Finish Time: " << arrival + jobs[i][2]
-            << " Responce Time: " << arrival - jobs[i][1] << endl << endl;
+             << " Responce Time: " << arrival - jobs[i][1] << endl << endl;
         arrival += jobs[i][2];
     }
 
@@ -75,5 +75,12 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
 
 void BJF(vector<vector<int> >&jobs, int job_index, int job_characteristics)
 {
-
+    int j=0;
+    for(int i=0; i<job_index; i++)
+    {
+        if(jobs[i][1] == jobs[i+1][1])
+        {
+            
+        }
+    }
 }
