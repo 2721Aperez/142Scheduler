@@ -1,6 +1,8 @@
 #include <iostream>
 #include<string>
 #include<vector>
+//#include<utility>
+#include<algorithm>
 #include<fstream>
 
 using namespace std;
@@ -18,7 +20,7 @@ Response Time = first_run - arrival
 */
 
 void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3);
-void BJF(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3 );
+void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3 );
 
 int main()
 {
@@ -50,8 +52,9 @@ int main()
         if(j == 3){j =0;}
         if(i == 100){break;}
     }
-
-    FIFO(job_list, i);
+    
+    //FIFO(job_list, i);
+    BJF(job_list, i);
     return 0;
 }
 
@@ -65,22 +68,57 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
     cout << "FIFO Scheduler" << endl;
     for(int i=0; i<job_index; i++)
     {
-        cout << "Job ID: " << jobs[i][0] << " Elapsed Time: " << jobs[i][2] << " Start Time: " << arrival << " Finish Time: " << arrival + jobs[i][2]
-             << " Responce Time: " << arrival - jobs[i][1] << endl << endl;
+        cout << "Job ID: " << jobs[i][0] << "\t Elapsed Time: " << jobs[i][2] << " \t Start Time: " << arrival << "\t Finish Time: " << arrival + jobs[i][2]
+             << " \t Responce Time: " << arrival - jobs[i][1] << endl << endl;
         arrival += jobs[i][2];
     }
 
     cout << "End of FIFO" << endl; 
 }
 
-void BJF(vector<vector<int> >&jobs, int job_index, int job_characteristics)
+void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics)
 {
-    int j=0;
-    for(int i=0; i<job_index; i++)
+    for(int i=0; i<job_index-1; i++)
     {
         if(jobs[i][1] == jobs[i+1][1])
         {
-            
+
+            if(jobs[i][2] < jobs[i+1][2])
+            {
+                jobs[i].swap(jobs[i+1]);
+            }
         }
     }
+    for(int i=0; i<job_index-1; i++)
+    {
+        if(jobs[i][1] == jobs[i+1][1])
+        {
+
+            if(jobs[i][2] < jobs[i+1][2])
+            {
+                jobs[i].swap(jobs[i+1]);
+            }
+        }
+    }
+    for(int i=0; i<job_index; i++)
+    {
+        for(int j=0; j<job_characteristics; j++)
+        {
+            cout << jobs[i][j] << " ";
+        }
+        cout << endl;
+    }
+
 }
+
+
+
+    //To test the vector out
+    // for(int i=0; i<job_index; i++)
+    // {
+    //     for(int j=0; j<job_characteristics; j++)
+    //     {
+    //         cout << jobs[i][j] << " ";
+    //     }
+    //     cout << endl;
+    // }
