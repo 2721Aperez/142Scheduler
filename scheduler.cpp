@@ -22,7 +22,8 @@ bool sortcol( const vector<int>& v1, const vector<int>& v2 ) { return v1[2] > v2
 void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3);
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3 );
 void SJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3); //Can be done the same way as BJF just reverse sortcol function
-
+void RR(vector<vector<int> >jobs, int job_index, int job_characteristics = 3);
+void findWaitingTime(vector<vector<int> >jobs, int n, int bt[], int wt[], int quantum); // for RR
 int main()
 {
     //2D vector format:
@@ -70,7 +71,7 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
     for(int i=0; i<job_index; i++)
     {
         cout << "Job ID: " << jobs[i][0] << "\t Elapsed Time: " << jobs[i][2] << " \t Start Time: " << arrival << "\t Finish Time: " << arrival + jobs[i][2]
-             << " \t Responce Time: " << arrival - jobs[i][1] << endl << endl;
+             << " \t Response Time: " << arrival - jobs[i][1] << endl << endl;
         arrival += jobs[i][2];
     }
 
@@ -94,9 +95,20 @@ void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics)
     for(int i=0; i<job_index; i++)
     {
         cout << "Job ID: " << jobs[i][0] << "\t Elapsed Time: " << jobs[i][2] << " \t Start Time: " << arrival << "\t Finish Time: " << arrival + jobs[i][2]
-             << " \t Responce Time: " << arrival - jobs[i][1] << endl << endl;
+             << " \t Response Time: " << arrival - jobs[i][1] << endl << endl;
         arrival += jobs[i][2];
     }
+
+}
+
+void findWaitingTime(int vector<vector<int> >jobs, int n, int bt[], int wt[], int quantum)
+{
+
+}
+
+void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
+{
+    
 
 }
 
