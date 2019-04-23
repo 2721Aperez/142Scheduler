@@ -18,7 +18,7 @@ For each of the above, output the following:
 •Response time for each job
 Response Time = first_run - arrival
 */
-
+bool sortcol( const vector<int>& v1, const vector<int>& v2 ) { return v1[2] > v2[2]; } 
 void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3);
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3 );
 
@@ -76,13 +76,10 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
     cout << "End of FIFO" << endl; 
 }
 
-bool sortcol( const vector<int>& v1, 
-               const vector<int>& v2 ) { 
- return v1[2] > v2[2]; 
-} 
 
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics)
 {
+    int arrival = 0;
     for(int i=0; i<job_index-1; i++)
     {
         if(jobs[i][1] == jobs[i+1][1])
@@ -92,14 +89,12 @@ void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics)
             sort(jobs.begin()+start, jobs.begin()+j, sortcol);
         }
     }
-    
+
     for(int i=0; i<job_index; i++)
     {
-        for(int j=0; j<job_characteristics; j++)
-        {
-            cout << jobs[i][j] << " ";
-        }
-        cout << endl;
+        cout << "Job ID: " << jobs[i][0] << "\t Elapsed Time: " << jobs[i][2] << " \t Start Time: " << arrival << "\t Finish Time: " << arrival + jobs[i][2]
+             << " \t Responce Time: " << arrival - jobs[i][1] << endl << endl;
+        arrival += jobs[i][2];
     }
 
 }
