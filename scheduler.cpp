@@ -18,9 +18,10 @@ For each of the above, output the following:
 •Response time for each job
 Response Time = first_run - arrival
 */
-bool sortcol( const vector<int>& v1, const vector<int>& v2 ) { return v1[2] > v2[2]; } 
+bool sortcol( const vector<int>& v1, const vector<int>& v2 ) { return v1[2] > v2[2]; } //For BJF
 void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3);
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3 );
+void SJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3); //Can be done the same way as BJF just reverse sortcol function
 
 int main()
 {
