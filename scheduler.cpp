@@ -76,30 +76,23 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
     cout << "End of FIFO" << endl; 
 }
 
+bool sortcol( const vector<int>& v1, 
+               const vector<int>& v2 ) { 
+ return v1[2] > v2[2]; 
+} 
+
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics)
 {
     for(int i=0; i<job_index-1; i++)
     {
         if(jobs[i][1] == jobs[i+1][1])
         {
-
-            if(jobs[i][2] < jobs[i+1][2])
-            {
-                jobs[i].swap(jobs[i+1]);
-            }
+            int start = i, j=i;
+            while(jobs[i][1] == jobs[j++][1] && j<=job_index-1);
+            sort(jobs.begin()+start, jobs.begin()+j, sortcol);
         }
     }
-    for(int i=0; i<job_index-1; i++)
-    {
-        if(jobs[i][1] == jobs[i+1][1])
-        {
-
-            if(jobs[i][2] < jobs[i+1][2])
-            {
-                jobs[i].swap(jobs[i+1]);
-            }
-        }
-    }
+    
     for(int i=0; i<job_index; i++)
     {
         for(int j=0; j<job_characteristics; j++)
