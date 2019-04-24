@@ -101,16 +101,21 @@ void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics)
 
 }
 
-void findWaitingTime(int vector<vector<int> >jobs, int n, int bt[], int wt[], int quantum)
-{
-
-}
-
-void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
+void SJF(vector<vector<int> >jobs, int job_index, int job_characteristics)
 {
     
-
 }
+
+// void findWaitingTime(int vector<vector<int> >jobs, int n, int bt[], int wt[], int quantum)
+// {
+
+// }
+
+// void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
+// {
+    
+
+// }
 
 
 
