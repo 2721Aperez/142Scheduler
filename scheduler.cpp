@@ -19,6 +19,9 @@ For each of the above, output the following:
 Response Time = first_run - arrival
 */
 bool sortcol( const vector<int>& v1, const vector<int>& v2 ) { return v1[2] > v2[2]; } //For BJF
+bool sortcolIncr( const vector<int>& v1, const vector<int>& v2 ) { return v1[2] < v2[2]; } //For SJF
+bool sortArrival( const vector<int>& v1, const vector<int>& v2 ) { return v1[1] < v2[1]; } //Sorting by the arrival time of jobs
+
 void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3);
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3 );
 void SJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3); //Can be done the same way as BJF just reverse sortcol function
@@ -54,8 +57,9 @@ int main()
         if(i == 100){break;}
     }
     
-    FIFO(job_list, i);
-    //BJF(job_list, i);
+    //FIFO(job_list, i);
+    BJF(job_list, i);
+    //SJF(job_list, i);
     return 0;
 }
 
@@ -81,6 +85,9 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics)
 {
     int arrival = 0;
+    cout << "Biggest Job First Scheduler " << endl;
+
+    sort(jobs.begin(), jobs.end(), sortArrival);
     for(int i=0; i<job_index-1; i++)
     {
         if(jobs[i][1] == jobs[i+1][1])
@@ -98,6 +105,31 @@ void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics)
         arrival += jobs[i][2];
     }
 
+    cout << "End of Biggest Job First" << endl << endl;
+
+}
+
+void SJF(vector<vector<int> > jobs, int job_index, int job_characteristics)
+{
+    int arrival = 0;
+    cout << "Start of Smallest Job First" << endl;
+    sort(jobs.begin(), jobs.end(), sortArrival);
+    for(int i=0; i<job_index-1; i++)
+    {
+        if(jobs[i][1] == jobs[i+1][1])
+        {
+            int start = i, j=i;
+            while(jobs[i][1] == jobs[j++][1] && j<=job_index-1);
+            sort(jobs.begin()+start, jobs.begin()+j, sortcolIncr);
+        }
+    }
+    for(int i=0; i<job_index; i++)
+    {
+        cout << "Job ID: " << jobs[i][0] << "\t Elapsed Time: " << jobs[i][2] << " \t Start Time: " << arrival << "\t Finish Time: " << arrival + jobs[i][2]
+             << " \t Responce Time: " << arrival - jobs[i][1] << endl << endl;
+        arrival += jobs[i][2];
+    }
+    cout << "End of Smallest Job First Scheduler" <<endl << endl;
 }
 
 
