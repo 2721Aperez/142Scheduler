@@ -25,7 +25,7 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3)
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3 );
 void SJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3); //Can be done the same way as BJF just reverse sortcol function
 void RR(vector<vector<int> >jobs, int job_index, int job_characteristics = 3);
-void findWaitingTime(vector<vector<int> >jobs, int n, int bt[], int wt[], int quantum); // for RR
+
 int main()
 {
     //2D vector format:
@@ -128,16 +128,6 @@ void SJF(vector<vector<int> > jobs, int job_index, int job_characteristics)
     }
     cout << "End of Smallest Job First Scheduler" <<endl << endl;
 }
-
-void SJF(vector<vector<int> >jobs, int job_index, int job_characteristics)
-{
-    
-}
-
-// void findWaitingTime(int vector<vector<int> >jobs, int n, int bt[], int wt[], int quantum)
-// {
-
-// }
 
 // void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
 // {
