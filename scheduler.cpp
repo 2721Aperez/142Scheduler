@@ -54,8 +54,8 @@ int main()
         if(i == 100){break;}
     }
     
-    //FIFO(job_list, i);
-    BJF(job_list, i);
+    FIFO(job_list, i);
+    //BJF(job_list, i);
     return 0;
 }
 
