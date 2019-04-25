@@ -25,7 +25,7 @@ bool sortArrival( const vector<int>& v1, const vector<int>& v2 ) { return v1[1] 
 void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3);
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3 );
 void SJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3); //Can be done the same way as BJF just reverse sortcol function
-void RR(vector<vector<int> >jobs, int job_index, int job_characteristics);
+void RR(vector<vector<int> >jobs, int job_index, int job_characteristics = 3);
 
 int main()
 {
@@ -59,8 +59,9 @@ int main()
     }
     
     //FIFO(job_list, i);
-    BJF(job_list, i);
+    //BJF(job_list, i);
     //SJF(job_list, i);
+    RR(job_list, i);
     return 0;
 }
 
@@ -133,23 +134,38 @@ void SJF(vector<vector<int> > jobs, int job_index, int job_characteristics)
     cout << "End of Smallest Job First Scheduler" <<endl << endl;
 }
 
-void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
+void RR(vector<vector<int> >jobs, int job_index, int job_characteristics = 3)
 {
+    vector<int>Fin;
     int quantum = 1;
+    int pos = 0;
+    int fintime = 0; //finish time
     cout << "Start of Round Robin" << endl;
-    for(int i=0; i<job_index;i++){
-        int fintime = 0; //finish time
+    for(int i=0; i<pos;i++){
+        pos = pos%7;
         int remtime = jobs[i][2]; //remtime = duration and the reamaining time after execute
+        if(pos == 100)
+        {
+            break;
+        }
         if(remtime >= quantum)
         {
             remtime--;
             fintime++;
         }
-        if (remtime == 0)
+        else
         {
-            
-        }
+            continue;
+        } 
+        pos++; //update pos to move on to the next job
     }
+for(int i=0; i<job_index; i++)
+    {
+        cout << "Job ID: " << jobs[i][0] << "\t Elapsed Time: " << jobs[i][2] << " \t Start Time: " << fintime << "\t Finish Time: " << fintime + jobs[i][2]
+             << " \t Response Time: " << fintime - jobs[i][1] << endl << endl;
+        fintime += jobs[i][2];
+    }
+    cout << "End of Round Robin" << endl << endl;
 }
 
 
