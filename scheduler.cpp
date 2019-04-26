@@ -4,7 +4,7 @@
 //#include<utility>
 #include<algorithm>
 #include<fstream>
-//#include <sstream>
+
 
 using namespace std;
 /*
@@ -22,8 +22,8 @@ Response Time = first_run - arrival
 bool sortcol( const vector<int>& v1, const vector<int>& v2 ) { return v1[2] > v2[2]; } //For BJF
 bool sortcolIncr( const vector<int>& v1, const vector<int>& v2 ) { return v1[2] < v2[2]; } //For SJF
 bool sortArrival( const vector<int>& v1, const vector<int>& v2 ) { return v1[1] < v2[1]; } //Sorting by the arrival time of jobs
-bool sortDuration( const vector<int>& v1, const vector<int>& v2) { return v1[3] < v2[3]; }
-bool sortID(const vector<int>& v1, const vector<int>& v2) { return v1[0] < v2[0]; }
+bool sortDuration( const vector<int>& v1, const vector<int>& v2) { return v1[3] < v2[3]; } //Sorting by duration of job
+bool sortID(const vector<int>& v1, const vector<int>& v2) { return v1[0] < v2[0]; }        //Sorting by Job ID
 
 void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3);
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3 );
@@ -44,12 +44,10 @@ int main()
     int j=0;//Index for the job info. There will only be 3 categories of info
     int data=0;//Temp stores each int from the .dat file
     const int JOB_CATEGORIES = 3;//There will be only 3 categories per job
-    // string 
-    // stringstream job;
+    
     ifstream jobs;
     jobs.open("Jobs.dat");
-    //jobs.getline(job, 100);
-    //cout << job << endl;
+    
     while(!jobs.eof())
     {
         while(j<3)
@@ -65,7 +63,6 @@ int main()
 
     jobs.close();
 
-    cout << "i = " << i << endl;
     //FIFO(job_list, i);
     //BJF(job_list, i);
     //SJF(job_list, i);
@@ -147,16 +144,11 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
     int arrival = 0;
     int index = 0;
     int shortest_job_index = 0;
-    vector<int>job_info(4); // Vector to hold Job ID, Start Time, Finish Time, and Duration Remaining
-    vector<vector<int>>job_list;
+    vector<int>job_info(4);      // Vector to hold Job ID, Start Time, Finish Time, and Duration Remaining
+    vector<vector<int>>job_list; // Vector to hold job vectors
 
     cout << "Start of STCF" << endl;
-    //cout << "Sorted jobs list by arrival time" << endl;
     sort(jobs.begin(), jobs.end(), sortArrival);
-
-    // for(int i = 0; i < job_index; i++) {
-    //     cout << "Job ID: " << jobs[i][0] << "\tArrival Time: " << jobs[i][1] << "\tDuration: " << jobs[i][2] << endl;
-    // }
 
     if(job_index == 0) { cout << "There are no jobs. End of SCTF" << endl;} // Edge case: no jobs
     else if(job_index == 1) {
@@ -166,11 +158,9 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
         return;
     }
 
-    //consider edge case where there are no jobs?
     while(arrival != jobs[index][1]) {  //increment time until first job comes in
         arrival++;
     }
-    // cout << "Current job: Job ID = " << jobs[index][0] << "; Arrival Time: " << jobs[index][1] << "; Duration: " << jobs[index][2] << endl;
     
     if(arrival != jobs[index+1][1]) {
         job_info[0] = jobs[index][0];    // Job ID
@@ -180,17 +170,10 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
     }
     job_list.push_back(job_info);
 
-    // cout << "Job ID: " << job_info[0] << "\tStart Time: " << job_info[1] << "\tFinish Time: " << job_info[2] << endl;
-    // cout << "Job ID: " << job_list[0][0] << "\tStart Time: " << job_list[0][1] << "\tFinish Time: " << job_list[0][2] << endl;
-
     while(arrival != jobs[index+1][1]) { // while next job has not come in
         arrival++;
         job_list[index][3]--;
     }
-
-    // cout << "Current time = " << arrival << " secs" << endl;
-    // cout << "Current job: Job ID = " << jobs[index][0] << "; Arrival Time: " << jobs[index][1] << "; Duration: " << job_list[index][3] << endl;
-    // cout << "Next job: Job ID = " << jobs[index+1][0] << "; Arrival Time: " << jobs[index+1][1] << "; Duration " << jobs[index+1][2] << endl;
 
     int temp = 0; // temp points to next job that has not arrived
     bool allJobsArrived = false;
@@ -202,7 +185,6 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
     while(!jobsComplete && !allJobsArrived) { // Keep looping until all jobs are added to jobs_list and jobs are complete
         while(temp < job_index && (jobs[temp][1] == arrival)) {
         // Add all jobs that have arrived at current time
-            // cout << "Jobs[" << temp << "][1] = " << jobs[temp][1] << endl;
             job_info[0] = jobs[temp][0]; // Job ID
             job_info[1] = -1;            // Start Time
             job_info[2] = -1;            // Finish Time
@@ -222,23 +204,9 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
                     shortest_job_index = i + 1; 
                 }
             } 
-            //else shortest_job_index = i;
         }
-        // cout << "Shortest_job_index = " << shortest_job_index << endl;
-
-
-        // cout << "\ntemp = " << temp << endl;
-        // cout << "Current Jobs:" << endl;
-        // for(int i = 0; i < job_list.size(); i++) {
-        //     cout << "Job ID: " << job_list[i][0] << "\tStart Time: " << job_list[i][1] << "\tFinish Time: " << job_list[i][2];
-        //     cout << "\tDuration: " << job_list[i][3] << endl;
-        // }
-
-        // cout << "Shortest job: Job ID = " << jobs[shortest_job_index][0] << "; Arrival Time: " << jobs[shortest_job_index][1] << "; Duration " << jobs[shortest_job_index][2] << endl;
-        // cout << "temp = " << temp << endl;
         
         if(!allJobsArrived) {  // There are jobs that have not arrived
-            // cout << "Temp in allJobsArrived = " << temp << endl;
             if(job_list[shortest_job_index][1] == -1) {job_list[shortest_job_index][1] = arrival;}
             
             while(arrival != jobs[temp][1] && job_list[shortest_job_index][3] > 0) {   // Run shortest job until next job(s) come in
@@ -260,15 +228,8 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
             }
             jobsComplete = true;
         }
-
-        
-        cout << "\nCurrent Jobs (time = " << arrival << "):" << endl;
-        for(int i = 0; i < job_list.size(); i++) {
-            cout << "Job ID: " << job_list[i][0] << "\tStart Time: " << job_list[i][1] << "\tFinish Time: " << job_list[i][2];
-            cout << "\tDuration: " << job_list[i][3] << endl;
-        }
-        cout << endl;
     }
+    
     sort(jobs.begin(), jobs.end(), sortID);
     sort(job_list.begin(), job_list.end(), sortID);
 
@@ -277,18 +238,7 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
         "\tElapsed Time: " << job_list[i][2] - job_list[i][1] << "\tResponse Time: " << job_list[i][1] - jobs[i][1] << endl;
     }
 }
-    
-
-    //while((jobs[index][1] == jobs[i+1][1]) && jobs[i][2] <= jobs[i+1][2]) { // find shortest duration job
-            
-        // }
-
-        // while()
-    //}
-    
-
-
-
+        
     //To test the vector out
     // for(int i=0; i<job_index; i++)
     // {
