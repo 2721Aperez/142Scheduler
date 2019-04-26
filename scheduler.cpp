@@ -79,8 +79,8 @@ int main()
     jobs.close();
     sort(job_list.begin(), job_list.end(), sortArrival);
 
-    //FIFO(job_list, i);
-    BJF(job_list, i);
+    FIFO(job_list, i);
+    //BJF(job_list, i);
     //SJF(job_list, i);
     
     //STCF(job_list, i);
@@ -95,8 +95,12 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
 {
     int arrival=0;
     cout << "FIFO Scheduler" << endl;
+
+    if(job_index == 0) { cout << "No jobs available. End of FIFO." << endl; return; } // Edge case: no jobs
+    
     for(int i=0; i<job_index; i++)
     {
+        if(jobs[i][1] > arrival) { arrival = jobs[i][1]; }
         cout << "Job ID: " << jobs[i][0] << "\t Elapsed Time: " << jobs[i][2] << " \t Start Time: " << arrival << "\t Finish Time: " << arrival + jobs[i][2]
              << " \t Response Time: " << arrival - jobs[i][1] << endl << endl;
         arrival += jobs[i][2];
