@@ -77,12 +77,13 @@ int main()
     }
 
     jobs.close();
+    sort(job_list.begin(), job_list.end(), sortArrival);
 
-    //FIFO(job_list, i);
+    FIFO(job_list, i);
     //BJF(job_list, i);
     //SJF(job_list, i);
     
-    STCF(job_list, i);
+    //STCF(job_list, i);
     return 0;
 }
 
@@ -97,7 +98,7 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
     for(int i=0; i<job_index; i++)
     {
         cout << "Job ID: " << jobs[i][0] << "\t Elapsed Time: " << jobs[i][2] << " \t Start Time: " << arrival << "\t Finish Time: " << arrival + jobs[i][2]
-             << " \t Responce Time: " << arrival - jobs[i][1] << endl << endl;
+             << " \t Response Time: " << arrival - jobs[i][1] << endl << endl;
         arrival += jobs[i][2];
     }
 
