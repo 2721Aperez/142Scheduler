@@ -79,11 +79,11 @@ int main()
     jobs.close();
     sort(job_list.begin(), job_list.end(), sortArrival);
 
-    FIFO(job_list, i);
+    //FIFO(job_list, i);
     //BJF(job_list, i);
     //SJF(job_list, i);
     
-    //STCF(job_list, i);
+    STCF(job_list, i);
     return 0;
 }
 
@@ -241,22 +241,32 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
         job_info[1] = jobs[index][1];    // Start Time
         job_info[2] = -1;                // Finish Time
         job_info[3] = jobs[index][2];    // Remaining duration
+        job_list.push_back(job_info);
     }
-    job_list.push_back(job_info);
 
-    while(arrival != jobs[index+1][1]) { // while next job has not come in
+    while((arrival != jobs[index+1][1]) && (job_list[index][3] != 0)) { // while next job has not come in
         arrival++;
         job_list[index][3]--;
     }
+
+    if(job_list[index][3] == 0) {   // First job finished
+        job_list[index][2] = arrival;
+    }
+
+    if(jobs[index+1][1] != arrival) { arrival = jobs[index+1][1]; } // If second job hasn't come in at completion of first job
 
     int temp = 0; // temp points to next job that has not arrived
     bool allJobsArrived = false;
     bool jobsComplete = false;
 
-    if(index + 1 < job_index - 1) // Check to see if out of bounds (not needed since we know there is more than 1?)
+    if(index + 1 < job_index) // Check to see if out of bounds (not needed since we know there is more than 1?)
         temp = index + 1;
 
     while(!jobsComplete && !allJobsArrived) { // Keep looping until all jobs are added to jobs_list and jobs are complete
+        
+        if((shortest_job_index == job_list.size()-1) && (arrival < jobs[temp][1]))
+            arrival = jobs[temp][1];
+        
         while(temp < job_index && (jobs[temp][1] == arrival)) {
         // Add all jobs that have arrived at current time
             job_info[0] = jobs[temp][0]; // Job ID
@@ -268,27 +278,31 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
             temp++;
             if(temp == job_index) {allJobsArrived = true;};
         }
+        if(temp == job_index) { allJobsArrived = true; }
 
         shortest_job_index = 0;
 
         //find the shortest duration job based on all jobs that have come in
-        for(int i = 0; i < job_list.size() - 1; i++) {
-            if(job_list[i+1][3] < job_list[shortest_job_index][3]) {
-                if(job_list[i+1][3] > 0) {
-                    shortest_job_index = i + 1; 
+        for(int i = 0; i < job_list.size(); i++) {
+            if(job_list[i][3] < job_list[shortest_job_index][3]) {
+                if(job_list[i][3] > 0) {
+                    shortest_job_index = i; 
                 }
-            } 
+            }
+            else if(job_list[shortest_job_index][3] == 0) {
+                shortest_job_index = i;
+            }
         }
         
         if(!allJobsArrived) {  // There are jobs that have not arrived
-            if(job_list[shortest_job_index][1] == -1) {job_list[shortest_job_index][1] = arrival;}
+            if(job_list[shortest_job_index][1] == -1) {job_list[shortest_job_index][1] = arrival;} // If job not yet started, set start time
             
             while(arrival != jobs[temp][1] && job_list[shortest_job_index][3] > 0) {   // Run shortest job until next job(s) come in
                 arrival++;
                 job_list[shortest_job_index][3]--;
             }
-
-            if(job_list[shortest_job_index][3] == 0) {job_list[shortest_job_index][2] = arrival;}
+            
+            if(job_list[shortest_job_index][3] == 0) {job_list[shortest_job_index][2] = arrival;} // If job completed, record finish time
         }
         else {
             sort(job_list.begin(), job_list.end(), sortDuration);
