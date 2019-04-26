@@ -25,7 +25,7 @@ bool sortArrival( const vector<int>& v1, const vector<int>& v2 ) { return v1[1] 
 void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3);
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3 );
 void SJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3); //Can be done the same way as BJF just reverse sortcol function
-void RR(vector<vector<int> >jobs, int job_index);
+void RR(vector<vector<int> >jobs, int job_index, int job_characteristics = 3);
 
 int main()
 {
@@ -61,7 +61,7 @@ int main()
     //FIFO(job_list, i);
     //BJF(job_list, i);
     //SJF(job_list, i);
-    //RR(job_list, i);
+    RR(job_list, i);
     return 0;
 }
 
@@ -134,7 +134,7 @@ void SJF(vector<vector<int> > jobs, int job_index, int job_characteristics)
     cout << "End of Smallest Job First Scheduler" <<endl << endl;
 }
 
-void RR(vector<vector<int> >jobs, int job_index)
+void RR(vector<vector<int> >jobs, int job_index,int job_characteristics)
 {
     vector<int>Fin;
     int quantum = 1;
@@ -159,6 +159,7 @@ void RR(vector<vector<int> >jobs, int job_index)
         } 
         pos++; //update pos to move on to the next job
     }
+    for(int i=0; i<job_index; i++)
     cout << "End of Round Robin" << endl << endl;
 }
 
@@ -172,3 +173,5 @@ void RR(vector<vector<int> >jobs, int job_index)
     //     }
     //     cout << endl;
     // }
+
+    
