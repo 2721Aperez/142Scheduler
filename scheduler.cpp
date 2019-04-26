@@ -4,6 +4,7 @@
 //#include<utility>
 #include<algorithm>
 #include<fstream>
+#include <sstream>
 
 
 using namespace std;
@@ -44,21 +45,35 @@ int main()
     int j=0;//Index for the job info. There will only be 3 categories of info
     int data=0;//Temp stores each int from the .dat file
     const int JOB_CATEGORIES = 3;//There will be only 3 categories per job
-    
+    int jobID, arrivalTime, duration;
+
     ifstream jobs;
     jobs.open("Jobs.dat");
     
-    while(!jobs.eof())
-    {
-        while(j<3)
-        {
-            jobs >> data;
-            job_info[j++] = data;
-        }
+    // while(!jobs.eof())
+    // {
+    //     while(j<3)
+    //     {
+    //         jobs >> data;
+    //         job_info[j++] = data;
+    //     }
+    //     job_list.push_back(job_info);
+    //     i++;
+    //     if(j == 3){j =0;}
+    //     if(i == 100){break;}
+    // }
+
+    string line;
+    while(getline(jobs, line)) {
+        istringstream iss(line);
+        if(!(iss >> jobID >> arrivalTime >> duration)) {break;} //error
+        job_info[0] = jobID;
+        job_info[1] = arrivalTime;
+        job_info[2] = duration;
         job_list.push_back(job_info);
         i++;
-        if(j == 3){j =0;}
-        if(i == 100){break;}
+        if(i >= 100) {break;}   // Maximum number of jobs is 100
+        
     }
 
     jobs.close();
@@ -148,15 +163,16 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
     vector<vector<int>>job_list; // Vector to hold job vectors
 
     cout << "Start of STCF" << endl;
-    sort(jobs.begin(), jobs.end(), sortArrival);
 
-    if(job_index == 0) { cout << "There are no jobs. End of SCTF" << endl;} // Edge case: no jobs
+    if(job_index == 0) { cout << "There are no jobs. End of SCTF" << endl; return;} // Edge case: no jobs
     else if(job_index == 1) {
         arrival = jobs[0][1] + jobs[0][2]; // Time after completion equal to job arrival time + job duration
         cout << "Job ID: " << jobs[0][0] << "\tStart Time: " << jobs[0][1] << "\tFinish Time: " << arrival << 
         "\tTotal Time Elapsed: " << jobs[0][2] << "\tResponse Time: 0" << endl; // Hardcoded response time, only one job so it is always 0
         return;
     }
+
+    sort(jobs.begin(), jobs.end(), sortArrival);
 
     while(arrival != jobs[index][1]) {  //increment time until first job comes in
         arrival++;
