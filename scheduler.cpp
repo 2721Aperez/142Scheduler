@@ -162,7 +162,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
 
     vector<int>arrival; //this vector will be the copy of arrival time
     vector<int>rem;     //this vector will be the copy of duration time
-    int comp[job_index];
+    int comp[job_index];    //this array will hold the completion time
     int t = 0;      //current time
     int q = 1;      //quantum
     
@@ -175,21 +175,18 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
    while (true) { 
             bool flag = true; 
             for (int i = 0; i < job_index; i++) { 
-                if (arrival[i] <= q) { 
+                if (arrival[i] <= t) { 
                     if (arrival[i] <= q) { 
                         if (rem[i] > 0) { 
                             flag = false; 
                             if (rem[i] > q) { 
-  
-                                // make decrease the b time 
                                 t = t + q; 
                                 rem[i] = rem[i] - q; 
                                 arrival[i] = arrival[i] + q;                              
                             } 
                             else { 
                                 t = t + rem[i]; 
-                                //comp[i] = t - jobs[i][1];
-                                comp[i] = t; 
+                                comp[i] = t - jobs[i][1]; 
                                 rem[i] = 0; 
                             } 
                         } 
@@ -206,8 +203,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                                     } 
                                     else { 
                                         t = t + rem[j]; 
-                                        //comp[j] = t - jobs[j][1]; 
-                                        comp[i] = t;
+                                        comp[j] = t - jobs[j][1]; 
                                         rem[j] = 0; 
                                     } 
                                 } 
@@ -222,8 +218,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                             } 
                             else { 
                                 t = t + rem[i]; 
-                                //comp[i] = t - jobs[i][1]; 
-                                comp[i] = t;
+                                comp[i] = t - jobs[i][1]; 
                                 rem[i] = 0; 
                             } 
                         } 
