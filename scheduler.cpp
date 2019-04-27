@@ -162,7 +162,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
 
     vector<int>arrival; //this vector will be the copy of arrival time
     vector<int>rem;     //this vector will be the copy of duration time
-    vector<int>comp;    //this vector will hold completion time
+    int comp[job_index];
     int t = 0;      //current time
     int q = 1;      //quantum
     
@@ -188,7 +188,8 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                             } 
                             else { 
                                 t = t + rem[i]; 
-                                comp[i] = t - jobs[i][1]; 
+                                //comp[i] = t - jobs[i][1];
+                                comp[i] = t; 
                                 rem[i] = 0; 
                             } 
                         } 
@@ -205,7 +206,8 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                                     } 
                                     else { 
                                         t = t + rem[j]; 
-                                        comp[j] = t - jobs[j][1]; 
+                                        //comp[j] = t - jobs[j][1]; 
+                                        comp[i] = t;
                                         rem[j] = 0; 
                                     } 
                                 } 
@@ -220,7 +222,8 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                             } 
                             else { 
                                 t = t + rem[i]; 
-                                comp[i] = t - jobs[i][1]; 
+                                //comp[i] = t - jobs[i][1]; 
+                                comp[i] = t;
                                 rem[i] = 0; 
                             } 
                         } 
@@ -237,10 +240,10 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
             } 
         } 
 
-for(int i = 0; i < job_index; i++) {
-     cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << jobs[i][1] << "\tFinish Time: " << comp[i] <<
-     "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << comp[i] - jobs[i][1] << endl;
-}
+    for(int i = 0; i < job_index; i++) {
+         cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << jobs[i][1] << "\tFinish Time: " << comp[i] <<
+        "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << comp[i] - jobs[i][1] << endl;
+    }
 }
 
 
