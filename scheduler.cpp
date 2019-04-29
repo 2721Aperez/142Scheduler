@@ -79,11 +79,11 @@ int main()
     jobs.close();
     sort(job_list.begin(), job_list.end(), sortArrival);
 
-    //FIFO(job_list, i);
-    //BJF(job_list, i);
-    //SJF(job_list, i);
+    FIFO(job_list, i);
+    BJF(job_list, i);
+    SJF(job_list, i);
     
-    STCF(job_list, i);
+    //STCF(job_list, i);
     return 0;
 }
 
@@ -132,84 +132,57 @@ void BJF(vector<vector<int>>jobs, int job_index, int job_characteristics)
 
         if(jobs[index][1] > arrival) { arrival = jobs[index][1]; }
 
-        //if(jobs[index][1] <= arrival) {
-            while(jobs[index][1] <= arrival && index < job_index - 1) { // Find all jobs that have arrived at or before current time
-                index++;
-            }
-            if(jobs[index][1] > arrival) { index--; }
-        //}
-        //else {
-        //    arrival = jobs[index][1];
-        //}
-        //else increase time to next arrival        
+        while(jobs[index][1] <= arrival && index < job_index - 1) { // Find all jobs that have arrived at or before current time
+            index++;
+        }
+        if(jobs[index][1] > arrival) { index--; }        
         
         sort(jobs.begin()+i, jobs.begin()+index+1, sortcol); // Sort all available jobs by biggest job first
 
         cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << arrival << "\tFinish Time: " << arrival + jobs[i][2] <<
         "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << arrival - jobs[i][1] << endl;
         
-        arrival += jobs[i][2];
-    
-        /*        
-        if(i < job_index - 2) {
-            if((jobs[i][1] == jobs[i+1][1]) && (i==0))  // First loop: find all jobs w/ same arrival time and sort by largest duration
-            {
-                int start = i, j=i;
-                while(jobs[i][1] == jobs[j++][1] && j<=job_index-1);
-                sort(jobs.begin()+start, jobs.begin()+j, sortcol);
-                cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << arrival << "\tFinish Time: " << arrival + jobs[i][2] <<
-                "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << arrival - jobs[i][1] << endl; 
-                arrival += jobs[i][2];
-            }
-            else {
-                int index = i;
-                
-                while(index < job_index - 1) { // Find all jobs that have arrived at or before current time
-                    if(jobs[index+1][1] <= arrival) { index++; }
-                }
-                //index--;
-                sort(jobs.begin()+i, jobs.begin()+index, sortcol); // Sort all available jobs by biggest job first
-                cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << arrival << "\tFinish Time: " << arrival + jobs[i][2] <<
-                "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << arrival - jobs[i][1] << endl; 
-            }
-            arrival += jobs[i][2];
-        }
-        */
-        
-        
+        arrival += jobs[i][2];        
     }
 
-    // for(int i=0; i<job_index; i++)
-    // {
-    //     cout << "Job ID: " << jobs[i][0] << "\t Elapsed Time: " << jobs[i][2] << " \t Start Time: " << arrival << "\t Finish Time: " << arrival + jobs[i][2]
-    //          << " \t Responce Time: " << arrival - jobs[i][1] << endl << endl;
-    //     arrival += jobs[i][2];
-    // }
-
     cout << "End of Biggest Job First" << endl << endl;
-
 }
 
 void SJF(vector<vector<int> > jobs, int job_index, int job_characteristics)
 {
+    int i = 0;
     int arrival = 0;
     cout << "Start of Smallest Job First" << endl;
-    sort(jobs.begin(), jobs.end(), sortArrival);
-    for(int i=0; i<job_index-1; i++)
-    {
-        if(jobs[i][1] == jobs[i+1][1])
-        {
-            int start = i, j=i;
-            while(jobs[i][1] == jobs[j++][1] && j<=job_index-1);
-            sort(jobs.begin()+start, jobs.begin()+j, sortcolIncr);
-        }
+    
+    if(job_index == 0) { cout << "No jobs available. End of SJF." << endl; return; } // Edge case: no jobs
+    else if(job_index == 1) { 
+        arrival += jobs[i][1];
+        cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << arrival << "\tFinish Time: " << 
+        arrival + jobs[i][2] << "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << jobs[i][1] - arrival << endl;
+        return;
     }
-    for(int i=0; i<job_index; i++)
+
+    for(; i<job_index; i++)
     {
-        cout << "Job ID: " << jobs[i][0] << "\t Elapsed Time: " << jobs[i][2] << " \t Start Time: " << arrival << "\t Finish Time: " << arrival + jobs[i][2]
-             << " \t Responce Time: " << arrival - jobs[i][1] << endl << endl;
+        int index = i;
+
+        if(index == 0 && jobs[index][1] != 0) { arrival = jobs[i][1]; }   // Increment time until first job(s) arrives
+
+        if(jobs[index][1] > arrival) { arrival = jobs[index][1]; }
+
+        while(jobs[index][1] <= arrival && index < job_index - 1) { // Find all jobs that have arrived at or before current time
+            index++;
+        }
+        if(jobs[index][1] > arrival) { index--; }
+
+        sort(jobs.begin()+i, jobs.begin()+index+1, sortcolIncr); // Sort all available jobs by biggest job first
+
+        cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << arrival << "\tFinish Time: " << arrival + jobs[i][2] <<
+        "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << arrival - jobs[i][1] << endl;
+        
         arrival += jobs[i][2];
     }
+
     cout << "End of Smallest Job First Scheduler" <<endl << endl;
 }
 
