@@ -159,10 +159,10 @@ void SJF(vector<vector<int> > jobs, int job_index, int job_characteristics)
 void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
 {
     cout << "Start of Round Robin" << endl;
-
     vector<int>arrival; //this vector will be the copy of arrival time
     vector<int>rem;     //this vector will be the copy of duration time
     int comp[job_index];    //this array will hold the completion time
+    int st[job_index];   //this array will hold the start time of the job
     int t = 0;      //current time
     int q = 1;      //quantum
     
@@ -171,7 +171,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
         arrival.push_back(jobs[i][1]);  //copy arrival time
         rem.push_back(jobs[i][2]);      //copy duration
     }
-
+    
    while (true) { 
             bool flag = true; 
             for (int i = 0; i < job_index; i++) { 
@@ -182,7 +182,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                             if (rem[i] > q) { 
                                 t = t + q; 
                                 rem[i] = rem[i] - q; 
-                                arrival[i] = arrival[i] + q;                              
+                                arrival[i] = arrival[i] + q;                            
                             } 
                             else { 
                                 t = t + rem[i]; 
@@ -234,10 +234,9 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                 break; 
             } 
         } 
-
     for(int i = 0; i < job_index; i++) {
          cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << jobs[i][1] << "\tFinish Time: " << comp[i] <<
-        "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << comp[i] - jobs[i][1] << endl;
+        "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << st[i] - jobs[i][1] << endl;
     }
 }
 
