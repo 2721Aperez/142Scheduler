@@ -171,9 +171,20 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
         arrival.push_back(jobs[i][1]);  //copy arrival time
         rem.push_back(jobs[i][2]);      //copy duration
     }
+    if(job_index == 0){        //edge case when there is no job
+        cout << "There's no job. Ending Round Robin" <<  endl;
+        return;
+    }
+    if(job_index == 1){     //edge case when there is only one job
+        cout << "Job ID: " << jobs[0][0] << "\t Start Time: " << jobs[0][1] << "\t Finish Time: " << jobs[0][2] + jobs[0][1] << "\t Elapsed Time: " << 
+        jobs[0][2] << "\t Repsonse Time: 0" << endl;
+        cout << "End of Round Robin" << endl; 
+        return;
+    }
     
-   while (true) { 
-            bool flag = true; 
+    bool flag = true; 
+
+    while (flag) { 
             for (int i = 0; i < job_index; i++) { 
                 if (arrival[i] <= t) { 
                     if (arrival[i] <= q) { 
@@ -182,7 +193,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                             if (rem[i] > q) { 
                                 t = t + q; 
                                 rem[i] = rem[i] - q; 
-                                arrival[i] = arrival[i] + q;                            
+                                //arrival[i] = arrival[i] + q;                            
                             } 
                             else { 
                                 t = t + rem[i]; 
@@ -229,15 +240,12 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                     i--; 
                 } 
             } 
-            // for exit the while loop 
-            if (flag) { 
-                break; 
-            } 
         } 
     for(int i = 0; i < job_index; i++) {
          cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << jobs[i][1] << "\tFinish Time: " << comp[i] <<
         "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << st[i] - jobs[i][1] << endl;
     }
+    cout << "End of Round Robin" << endl;
 }
 
 
