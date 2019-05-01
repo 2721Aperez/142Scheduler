@@ -29,6 +29,7 @@ bool sortID(const vector<int>& v1, const vector<int>& v2) { return v1[0] < v2[0]
 void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics = 3);
 void BJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3 );
 void SJF(vector<vector<int> >jobs, int job_index, int job_characteristics = 3); //Can be done the same way as BJF just reverse sortcol function
+void RR(vector<vector<int> >jobs, int job_index, int job_characteristics = 3);
 void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics = 3);
 
 int main()
@@ -79,10 +80,10 @@ int main()
     jobs.close();
     sort(job_list.begin(), job_list.end(), sortArrival);
 
-    FIFO(job_list, i);
-    BJF(job_list, i);
-    SJF(job_list, i);
-    
+    //FIFO(job_list, i);
+    //BJF(job_list, i);
+    //SJF(job_list, i);
+    RR(job_list,i);
     //STCF(job_list, i);
     return 0;
 }
@@ -185,6 +186,102 @@ void SJF(vector<vector<int> > jobs, int job_index, int job_characteristics)
 
     cout << "End of Smallest Job First Scheduler" <<endl << endl;
 }
+
+void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
+{
+    cout << "Start of Round Robin" << endl;
+    vector<int>arrival; //this vector will be the copy of arrival time
+    vector<int>rem;     //this vector will be the copy of duration time
+    int comp[job_index];    //this array will hold the completion time
+    int st[job_index];   //this array will hold the start time of the job
+    int t = 0;      //current time
+    int q = 1;      //quantum
+    
+    for(int i=0; i< job_index; i++)     
+    {
+        arrival.push_back(jobs[i][1]);  //copy arrival time
+        rem.push_back(jobs[i][2]);      //copy duration
+    }
+    if(job_index == 0){        //edge case when there is no job
+        cout << "There's no job. Ending Round Robin" <<  endl;
+        return;
+    }
+    if(job_index == 1){     //edge case when there is only one job
+        cout << "Job ID: " << jobs[0][0] << "\t Start Time: " << jobs[0][1] << "\t Finish Time: " << jobs[0][2] + jobs[0][1] << "\t Elapsed Time: " << 
+        jobs[0][2] << "\t Repsonse Time: 0" << endl;
+        cout << "End of Round Robin" << endl; 
+        return;
+    }
+
+    while (true) { 
+            bool flag = true; 
+            for (int i = 0; i < job_index; i++) { 
+                if (arrival[i] <= t) { 
+                    if (arrival[i] <= q) { 
+                        if (rem[i] > 0) { 
+                            flag = false; 
+                            if (rem[i] > q) { 
+                                t = t + q; 
+                                rem[i] = rem[i] - q; 
+                                arrival[i] = arrival[i] + q;                            
+                            } 
+                            else { 
+                                t = t + rem[i]; 
+                                comp[i] = t - jobs[i][1]; 
+                                rem[i] = 0; 
+                            } 
+                        } 
+                    } 
+                    else if (arrival[i] > q) { 
+                        for (int j = 0; j < job_index; j++) { 
+                            if (arrival[j] < arrival[i]) { 
+                                if (rem[j] > 0) { 
+                                    flag = false; 
+                                    if (rem[j] > q) { 
+                                        t = t + q; 
+                                        rem[j] = rem[j] - q; 
+                                        arrival[j] = arrival[j] + q; 
+                                    } 
+                                    else { 
+                                        t = t + rem[j]; 
+                                        comp[j] = t - jobs[j][1]; 
+                                        rem[j] = 0; 
+                                    } 
+                                } 
+                            } 
+                        } 
+                        if (rem[i] > 0) { 
+                            flag = false;  
+                            if (rem[i] > q) { 
+                                t = t + q; 
+                                rem[i] = rem[i] - q; 
+                                arrival[i] = arrival[i] + q; 
+                            } 
+                            else { 
+                                t = t + rem[i]; 
+                                comp[i] = t - jobs[i][1]; 
+                                rem[i] = 0; 
+                            } 
+                        } 
+                    } 
+                } 
+                else if (arrival[i] > t) { 
+                    t++; 
+                    i--; 
+                } 
+            } 
+            // for exit the while loop 
+            if (flag) { 
+                break; 
+            } 
+        }
+    for(int i = 0; i < job_index; i++) {
+         cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << jobs[i][1] << "\tFinish Time: " << comp[i] <<
+        "\tElapsed Time: " << comp[i] - jobs[i][1] << "\tResponse Time: " << st[i] - jobs[i][1] << endl;
+    }
+    cout << "End of Round Robin" << endl;
+}
+
 
 void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
     int arrival = 0;
