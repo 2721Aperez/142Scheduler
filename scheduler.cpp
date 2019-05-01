@@ -1,7 +1,6 @@
 #include <iostream>
 #include<string>
 #include<vector>
-//#include<utility>
 #include<algorithm>
 #include<fstream>
 #include <sstream>
@@ -39,7 +38,6 @@ int main()
     //job_list[i][0] = JOB_ID
     //job_list[i][1] = ARRIVAL_TIME
     //job_list[i][2] = DURATION
-    //vector<vector<int> >job_list(100, vector<int>(3)); 
     vector<vector<int> > job_list;//This will be the list of jobs.  job_info vector will be pushed into this 2d vector.  This should be of size <=100
     vector<int> job_info(3); //This stores each job's ID, Arrival, and Duration.  It is a vector of size 3
     int i=0; //Index for job_list.  Cannot be more than 100 job entries
@@ -51,19 +49,6 @@ int main()
     ifstream jobs;
     jobs.open("Jobs.dat");
     
-    // while(!jobs.eof())
-    // {
-    //     while(j<3)
-    //     {
-    //         jobs >> data;
-    //         job_info[j++] = data;
-    //     }
-    //     job_list.push_back(job_info);
-    //     i++;
-    //     if(j == 3){j =0;}
-    //     if(i == 100){break;}
-    // }
-
     string line;
     while(getline(jobs, line)) {
         istringstream iss(line);
@@ -80,11 +65,11 @@ int main()
     jobs.close();
     sort(job_list.begin(), job_list.end(), sortArrival);
 
-    //FIFO(job_list, i);
-    //BJF(job_list, i);
-    //SJF(job_list, i);
+    FIFO(job_list, i);
+    BJF(job_list, i);
+    SJF(job_list, i);
+    STCF(job_list, i);
     RR(job_list,i);
-    //STCF(job_list, i);
     return 0;
 }
 
@@ -107,7 +92,7 @@ void FIFO(vector<vector<int> >&jobs, int job_index, int job_characteristics)
         arrival += jobs[i][2];
     }
 
-    cout << "End of FIFO" << endl; 
+    cout << "End of FIFO" << endl << endl; 
 }
 
 
@@ -141,7 +126,7 @@ void BJF(vector<vector<int>>jobs, int job_index, int job_characteristics)
         sort(jobs.begin()+i, jobs.begin()+index+1, sortcol); // Sort all available jobs by biggest job first
 
         cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << arrival << "\tFinish Time: " << arrival + jobs[i][2] <<
-        "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << arrival - jobs[i][1] << endl;
+        "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << arrival - jobs[i][1] << endl << endl;
         
         arrival += jobs[i][2];        
     }
@@ -179,7 +164,7 @@ void SJF(vector<vector<int> > jobs, int job_index, int job_characteristics)
         sort(jobs.begin()+i, jobs.begin()+index+1, sortcolIncr); // Sort all available jobs by biggest job first
 
         cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << arrival << "\tFinish Time: " << arrival + jobs[i][2] <<
-        "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << arrival - jobs[i][1] << endl;
+        "\tElapsed Time: " << jobs[i][2] << "\tResponse Time: " << arrival - jobs[i][1] << endl << endl;
         
         arrival += jobs[i][2];
     }
@@ -392,17 +377,9 @@ void STCF(vector<vector<int>>jobs, int job_index, int job_characteristics) {
     sort(job_list.begin(), job_list.end(), sortID);
 
     for(int i = 0; i < job_list.size(); i++) {
-        cout << "Job ID: " << job_list[i][0] << "\tStart Time: " << job_list[i][1] << "\tFinish Time: " << job_list[i][2] <<
-        "\tElapsed Time: " << job_list[i][2] - job_list[i][1] << "\tResponse Time: " << job_list[i][1] - jobs[i][1] << endl;
+        cout << "Job ID: " << job_list[i][0] << "\t Start Time: " << job_list[i][1] << "\t Finish Time: " << job_list[i][2] <<
+        "\t Elapsed Time: " << job_list[i][2] - job_list[i][1] << "\t Response Time: " << job_list[i][1] - jobs[i][1] << endl << endl;
     }
+
+    cout << "End of STCF Scheduler" << endl;
 }
-        
-    //To test the vector out
-    // for(int i=0; i<job_index; i++)
-    // {
-    //     for(int j=0; j<job_characteristics; j++)
-    //     {
-    //         cout << jobs[i][j] << " ";
-    //     }
-    //     cout << endl;
-    // }
