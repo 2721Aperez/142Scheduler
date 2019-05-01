@@ -179,6 +179,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
     vector<int>rem;     //this vector will be the copy of duration time
     int comp[job_index];    //this array will hold the completion time
     int st[job_index];   //this array will hold the start time of the job
+    int et[job_index];  //this array will hold the elapsed time
     int t = 0;      //current time
     int q = 1;      //quantum
     
@@ -213,7 +214,8 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                             else { 
                                 t = t + rem[i]; 
                                 comp[i] = t - jobs[i][1]; 
-                                rem[i] = 0; 
+                                et[i] = comp[i] - jobs[i][1];
+                                rem[i] = 0;
                             } 
                         } 
                     } 
@@ -230,6 +232,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                                     else { 
                                         t = t + rem[j]; 
                                         comp[j] = t - jobs[j][1]; 
+                                        et[j] = comp[j] - jobs[j][1];
                                         rem[j] = 0; 
                                     } 
                                 } 
@@ -245,6 +248,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
                             else { 
                                 t = t + rem[i]; 
                                 comp[i] = t - jobs[i][1]; 
+                                et[i] = comp[i] - jobs[i][1];
                                 rem[i] = 0; 
                             } 
                         } 
@@ -262,7 +266,7 @@ void RR(vector<vector<int> >jobs, int job_index, int job_characteristics)
         }
     for(int i = 0; i < job_index; i++) {
          cout << "Job ID: " << jobs[i][0] << "\tStart Time: " << jobs[i][1] << "\tFinish Time: " << comp[i] <<
-        "\tElapsed Time: " << comp[i] - jobs[i][1] << "\tResponse Time: " << st[i] - jobs[i][1] << endl;
+        "\tElapsed Time: " << et[i] << "\tResponse Time: " << comp[i] - et[i] - jobs[i][1] << endl;
     }
     cout << "End of Round Robin" << endl;
 }
